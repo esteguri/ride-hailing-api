@@ -16,12 +16,6 @@ export class Driver {
   @Column({ type: 'varchar', length: 6, unique: true })
   license_plate: string;
 
-  @Column({ type: 'float' })
-  latitude: number;
-
-  @Column({ type: 'float' })
-  longitude: number;
-
   @Column({ default: true })
   is_active: boolean;
 
