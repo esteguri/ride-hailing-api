@@ -7,6 +7,7 @@ import { DriversModule } from './drivers/drivers.module';
 import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
 import { AuthModule } from './auth/auth.module';
+import { ParametersModule } from './parameters/parameters.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AuthModule } from './auth/auth.module';
     CommonModule,
     SeedModule,
     AuthModule,
+    ParametersModule,
   ],
   controllers: [],
   providers: [],

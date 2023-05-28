@@ -7,7 +7,7 @@ import { LocationDto } from './dto/location.dto';
 import { UsersService } from 'src/users/users.service';
 import { DriversService } from 'src/drivers/drivers.service';
 import { Ride } from './entities/ride.entity';
-import { Repository, Not } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RideStatus } from 'src/common';
 import { LocationUtil } from './utils/location.util';
