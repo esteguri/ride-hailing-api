@@ -23,6 +23,10 @@ export class RidesService {
     private readonly parametersService: ParametersService,
   ) {}
 
+  async findAll() {
+    return await this.ridesRepository.find();
+  }
+
   async startRide(userId: string, locationDto: LocationDto) {
     const user = await await this.usersService.findById(userId);
     if (!user)

@@ -1,10 +1,15 @@
-import { Controller, Post, Body, Request, Param } from '@nestjs/common';
+import { Controller, Post, Body, Request, Param, Get } from '@nestjs/common';
 import { RidesService } from './rides.service';
 import { LocationDto } from './dto/location.dto';
 
 @Controller('rides')
 export class RidesController {
   constructor(private readonly ridesService: RidesService) {}
+
+  @Get()
+  findAll() {
+    return this.ridesService.findAll();
+  }
 
   @Post('start')
   startRide(@Request() req, @Body() locationDto: LocationDto) {
