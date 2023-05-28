@@ -1,12 +1,19 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { User } from 'src/users/entities/users.entity';
 import axios, { AxiosInstance } from 'axios';
+import { Payment } from './entities/payments.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { TransactionPaymentDto } from './dto/transaction-payment.dto';
 
 @Injectable()
 export class PaymentsService {
   private http: AxiosInstance;
 
-  constructor() {
+  constructor(
+    @InjectRepository(Payment)
+    private readonly repositoryPayments: Repository<Payment>,
+  ) {
     this.http = axios.create({
       baseURL: process.env.API_PAYMENT_URL,
       headers: {
@@ -14,6 +21,10 @@ export class PaymentsService {
         'Content-Type': 'application/json',
       },
     });
+  }
+
+  async createEvent(data: TransactionPaymentDto) {
+    this.repositoryPayments.save(data);
   }
 
   async createPayment(user: User, amount: number) {
