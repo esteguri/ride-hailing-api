@@ -1,10 +1,15 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  BadRequestException,
+} from '@nestjs/common';
 import { User } from 'src/users/entities/users.entity';
 import axios, { AxiosInstance } from 'axios';
 import { Payment } from './entities/payments.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { TransactionPaymentDto } from './dto/transaction-payment.dto';
+import { EventPaymentDto } from './dto/event-payment.dto';
+import { CryptoUtil } from 'src/common';
 
 @Injectable()
 export class PaymentsService {
@@ -23,8 +28,28 @@ export class PaymentsService {
     });
   }
 
-  async createEvent(data: TransactionPaymentDto) {
-    this.repositoryPayments.save(data);
+  async createEvent(event: EventPaymentDto) {
+    this.validateSignature(event);
+    this.repositoryPayments.save(event.data.transaction);
+  }
+
+  async validateSignature(event: EventPaymentDto) {
+    try {
+      const { id, amount_in_cents, status } = event.data.transaction;
+
+      const signature =
+        id +
+        status +
+        amount_in_cents +
+        `${event.timestamp}` +
+        process.env.API_PAYMENT_EVENTS_KEY;
+
+      const result = CryptoUtil.sha256(signature) === event.signature.checksum;
+
+      if (!result) throw new BadRequestException('Signature not valid');
+    } catch (error) {
+      throw new BadRequestException('Error validating signature');
+    }
   }
 
   async createPayment(user: User, amount: number) {
