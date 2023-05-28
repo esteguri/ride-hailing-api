@@ -12,6 +12,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ParametersKey, RideStatus } from 'src/common';
 import { Calculate } from './utils/calculate.util';
 import { ParametersService } from 'src/parameters/parameters.service';
+import { PaymentsService } from 'src/payments/payments.service';
 
 @Injectable()
 export class RidesService {
@@ -21,6 +22,7 @@ export class RidesService {
     private readonly usersService: UsersService,
     private readonly driversService: DriversService,
     private readonly parametersService: ParametersService,
+    private readonly paymentsService: PaymentsService,
   ) {}
 
   async findAll() {
@@ -80,6 +82,8 @@ export class RidesService {
 
     const price = await this.calculatePrice(distance, duration);
 
+    const response = await this.paymentsService.createPayment(ride.user, price);
+
     await this.ridesRepository.save({
       ...ride,
       price,
@@ -95,6 +99,7 @@ export class RidesService {
         distance,
         duration,
         price,
+        reference: response.data.reference,
       },
     };
   }

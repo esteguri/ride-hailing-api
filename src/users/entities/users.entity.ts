@@ -16,8 +16,8 @@ export class User {
   @Column({ type: 'varchar', length: 50, unique: true })
   email: string;
 
-  @Column({ type: 'varchar' })
-  payment_token: string;
+  @Column({ type: 'int' })
+  payment_token: number;
 
   @Column({ default: true })
   is_active: boolean;

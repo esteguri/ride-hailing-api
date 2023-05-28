@@ -6,6 +6,7 @@ import { RidesController } from './rides.controller';
 import { UsersModule } from 'src/users/users.module';
 import { DriversModule } from 'src/drivers/drivers.module';
 import { ParametersModule } from 'src/parameters/parameters.module';
+import { PaymentsModule } from 'src/payments/payments.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ParametersModule } from 'src/parameters/parameters.module';
     UsersModule,
     DriversModule,
     ParametersModule,
+    PaymentsModule,
   ],
   providers: [RidesService],
   controllers: [RidesController],

@@ -8,6 +8,7 @@ import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
 import { AuthModule } from './auth/auth.module';
 import { ParametersModule } from './parameters/parameters.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ParametersModule } from './parameters/parameters.module';
     SeedModule,
     AuthModule,
     ParametersModule,
+    PaymentsModule,
   ],
   controllers: [],
   providers: [],
