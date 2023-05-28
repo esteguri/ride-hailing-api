@@ -68,13 +68,6 @@ export class RidesService {
       throw new BadRequestException('You are not the driver of this ride');
 
     const end_date = new Date();
-    await this.ridesRepository.save({
-      ...ride,
-      end_date,
-      status: RideStatus.completed,
-      end_latitude: locationDto.latitude,
-      end_longitude: locationDto.longitude,
-    });
 
     const distance = Calculate.distance({
       lat1: ride.start_latitude,
@@ -86,6 +79,15 @@ export class RidesService {
     const duration = Calculate.duration(ride.start_date, end_date);
 
     const price = await this.calculatePrice(distance, duration);
+
+    await this.ridesRepository.save({
+      ...ride,
+      price,
+      end_date,
+      status: RideStatus.completed,
+      end_latitude: locationDto.latitude,
+      end_longitude: locationDto.longitude,
+    });
 
     return {
       message: 'Ride completed',
