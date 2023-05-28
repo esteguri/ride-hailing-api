@@ -15,11 +15,11 @@ export class Ride {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { eager: true, nullable: false })
   @JoinColumn({ name: 'id_user' })
   user: User;
 
-  @ManyToOne(() => Driver)
+  @ManyToOne(() => Driver, { eager: true, nullable: false })
   @JoinColumn({ name: 'id_driver' })
   driver: Driver;
 
@@ -36,10 +36,10 @@ export class Ride {
   })
   start_date: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', nullable: true })
   end_date: Date;
 
-  @Column({ type: 'money' })
+  @Column({ type: 'money', nullable: true })
   price: number;
 
   @Column({ type: 'float' })
@@ -48,9 +48,9 @@ export class Ride {
   @Column({ type: 'float' })
   start_longitude: number;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'float', nullable: true })
   end_latitude: number;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'float', nullable: true })
   end_longitude: number;
 }

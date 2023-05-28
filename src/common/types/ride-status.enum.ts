@@ -1,5 +1,5 @@
 export enum RideStatus {
-  started,
-  completed,
-  cancelled,
+  started = 'Started',
+  completed = 'Completed',
+  cancelled = 'Cancelled',
 }
