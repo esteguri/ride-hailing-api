@@ -75,7 +75,7 @@
       "<rootDir>"
     ],
     "collectCoverageFrom": [
-      "**/*.(t|j)s",
+      "./src/**/*.(t|j)s",
       "!**/*.(controller|module|entity|dto).(t|j)s",
       "!**/index.ts",
       "!main.ts"
