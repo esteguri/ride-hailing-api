@@ -7,16 +7,16 @@ export class RidesController {
   constructor(private readonly ridesService: RidesService) {}
 
   @Post('start')
-  startRide(@Request() req, @Body() startRideDto: LocationDto) {
-    return this.ridesService.startRide(req.user.id, startRideDto);
+  startRide(@Request() req, @Body() locationDto: LocationDto) {
+    return this.ridesService.startRide(req.user.id, locationDto);
   }
 
   @Post(':id/complete')
   completeRide(
     @Request() req,
-    @Body() completeRideDto: LocationDto,
+    @Body() locationDto: LocationDto,
     @Param('id') rideId: string,
   ) {
-    return this.ridesService.completeRide(req.user.id, rideId, completeRideDto);
+    return this.ridesService.completeRide(req.user.id, rideId, locationDto);
   }
 }

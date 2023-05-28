@@ -10,6 +10,7 @@ import { Ride } from './entities/ride.entity';
 import { Repository, Not } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RideStatus } from 'src/common';
+import { LocationUtil } from './utils/location.util';
 
 @Injectable()
 export class RidesService {
@@ -69,7 +70,12 @@ export class RidesService {
     return {
       message: 'Ride completed',
       data: {
-        distance: '10km',
+        distance: LocationUtil.getDistance({
+          lat1: ride.start_latitude,
+          lon1: ride.start_longitude,
+          lat2: locationDto.latitude,
+          lon2: locationDto.longitude,
+        }),
         price: 'COP 20.000',
       },
     };
