@@ -15,11 +15,11 @@ export class Ride {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User, { eager: true, nullable: false })
+  @ManyToOne(() => User, { nullable: false })
   @JoinColumn({ name: 'id_user' })
   user: User;
 
-  @ManyToOne(() => Driver, { eager: true, nullable: false })
+  @ManyToOne(() => Driver, { nullable: false })
   @JoinColumn({ name: 'id_driver' })
   driver: Driver;
 

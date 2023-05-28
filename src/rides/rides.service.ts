@@ -111,6 +111,7 @@ export class RidesService {
   async findById(id: string) {
     try {
       return await this.ridesRepository.findOne({
+        relations: ['driver', 'user'],
         where: {
           id,
         },
@@ -122,6 +123,7 @@ export class RidesService {
 
   private async getDriversAvailable() {
     const ridesStarted = await this.ridesRepository.find({
+      relations: ['driver'],
       where: {
         status: RideStatus.started,
       },
