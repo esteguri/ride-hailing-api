@@ -13,11 +13,17 @@ export class Driver {
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
+  @Column({ type: 'varchar', length: 50, unique: true })
+  email: string;
+
   @Column({ type: 'varchar', length: 6, unique: true })
   license_plate: string;
 
   @Column({ default: true })
   is_active: boolean;
+
+  @Column({ type: 'varchar' })
+  password: string;
 
   @CreateDateColumn({
     type: 'timestamp',

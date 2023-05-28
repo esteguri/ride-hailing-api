@@ -1,3 +1,4 @@
+import { CryptoUtil } from 'src/common';
 import { User } from '../../users/entities/users.entity';
 import { v4 as uuid } from 'uuid';
 
@@ -9,6 +10,7 @@ export const UsersSeed: User[] = [
     payment_token: '99',
     is_active: true,
     created_at: new Date(),
+    password: CryptoUtil.encode('123456'),
   },
   {
     id: uuid(),
@@ -17,5 +19,6 @@ export const UsersSeed: User[] = [
     payment_token: '99',
     is_active: true,
     created_at: new Date(),
+    password: CryptoUtil.encode('123456'),
   },
 ];

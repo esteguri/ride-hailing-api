@@ -22,6 +22,9 @@ export class User {
   @Column({ default: true })
   is_active: boolean;
 
+  @Column({ type: 'varchar' })
+  password: string;
+
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',

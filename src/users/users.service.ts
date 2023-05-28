@@ -10,6 +10,14 @@ export class UsersService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
+  public async findByEmail(email: string) {
+    return await this.usersRepository.findOne({
+      where: {
+        email,
+      },
+    });
+  }
+
   public async findAll() {
     return await this.usersRepository.find();
   }

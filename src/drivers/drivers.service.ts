@@ -10,6 +10,14 @@ export class DriversService {
     private readonly driversRepository: Repository<Driver>,
   ) {}
 
+  public async findByEmail(email: string) {
+    return await this.driversRepository.findOne({
+      where: {
+        email,
+      },
+    });
+  }
+
   public async findAll() {
     return await this.driversRepository.find();
   }
