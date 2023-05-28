@@ -5,14 +5,16 @@ interface DistanceProps {
   lon2: number;
 }
 
-export const LocationUtil = {
-  getDistance: ({ lat1, lon1, lat2, lon2 }: DistanceProps) => {
+export const Calculate = {
+  distance: ({ lat1, lon1, lat2, lon2 }: DistanceProps) => {
     const earthRadius = 6371;
 
-    lat1 = LocationUtil.toRadians(lat1);
-    lon1 = LocationUtil.toRadians(lon1);
-    lat2 = LocationUtil.toRadians(lat2);
-    lon2 = LocationUtil.toRadians(lon2);
+    const toRadians = (degrees: number) => (Math.PI / 180) * degrees;
+
+    lat1 = toRadians(lat1);
+    lon1 = toRadians(lon1);
+    lat2 = toRadians(lat2);
+    lon2 = toRadians(lon2);
 
     const lonDiff = lon2 - lon1;
     const latDiff = lat2 - lat1;
@@ -25,5 +27,8 @@ export const LocationUtil = {
     const kms = earthRadius * c;
     return Math.round(kms * 100) / 100;
   },
-  toRadians: (degrees: number) => (Math.PI / 180) * degrees,
+  duration: (date1: Date, date2: Date) => {
+    const diff = date2.getTime() - date1.getTime();
+    return Math.round(diff / 60000);
+  },
 };

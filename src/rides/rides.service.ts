@@ -9,8 +9,9 @@ import { DriversService } from 'src/drivers/drivers.service';
 import { Ride } from './entities/ride.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RideStatus } from 'src/common';
-import { LocationUtil } from './utils/location.util';
+import { ParametersKey, RideStatus } from 'src/common';
+import { Calculate } from './utils/calculate.util';
+import { ParametersService } from 'src/parameters/parameters.service';
 
 @Injectable()
 export class RidesService {
@@ -19,6 +20,7 @@ export class RidesService {
     private readonly ridesRepository: Repository<Ride>,
     private readonly usersService: UsersService,
     private readonly driversService: DriversService,
+    private readonly parametersService: ParametersService,
   ) {}
 
   async startRide(userId: string, locationDto: LocationDto) {
@@ -31,6 +33,7 @@ export class RidesService {
     const ride = await this.ridesRepository.create({
       user,
       driver,
+      start_date: new Date(),
       start_latitude: locationDto.latitude,
       start_longitude: locationDto.longitude,
     });
@@ -51,34 +54,54 @@ export class RidesService {
 
   async completeRide(userId: string, rideId: string, locationDto: LocationDto) {
     const ride = await this.findById(rideId);
+
     if (!ride) throw new BadRequestException('Ride not found');
 
     if (ride.status !== RideStatus.started)
       throw new BadRequestException('Ride not started');
 
-    if (ride.driver.id === userId)
+    if (ride.driver.id !== userId)
       throw new BadRequestException('You are not the driver of this ride');
 
+    const end_date = new Date();
     await this.ridesRepository.save({
       ...ride,
+      end_date,
       status: RideStatus.completed,
-      end_date: new Date(),
       end_latitude: locationDto.latitude,
       end_longitude: locationDto.longitude,
     });
 
+    const distance = Calculate.distance({
+      lat1: ride.start_latitude,
+      lon1: ride.start_longitude,
+      lat2: locationDto.latitude,
+      lon2: locationDto.longitude,
+    });
+
+    const duration = Calculate.duration(ride.start_date, end_date);
+
+    const price = await this.calculatePrice(distance, duration);
+
     return {
       message: 'Ride completed',
       data: {
-        distance: LocationUtil.getDistance({
-          lat1: ride.start_latitude,
-          lon1: ride.start_longitude,
-          lat2: locationDto.latitude,
-          lon2: locationDto.longitude,
-        }),
-        price: 'COP 20.000',
+        distance,
+        duration,
+        price,
       },
     };
+  }
+
+  async calculatePrice(distance: number, minutes: number) {
+    const pricePerKm = await this.parametersService.get(ParametersKey.PRICE_KM);
+    const pricePerMinute = await this.parametersService.get(
+      ParametersKey.PRICE_MINUTE,
+    );
+    const priceBase = await this.parametersService.get(
+      ParametersKey.PRICE_BASE,
+    );
+    return +priceBase + distance * +pricePerKm + +pricePerMinute * minutes;
   }
 
   async findById(id: string) {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Parameter } from './entities/parameter.entity';
@@ -15,12 +15,17 @@ export class ParametersService {
     return await this.parametersRepository.find();
   }
 
-  public async findByKey(key: ParametersKey) {
-    return await this.parametersRepository.findOne({
+  public async get(key: ParametersKey) {
+    const parameter = await this.parametersRepository.findOne({
       where: {
         key,
       },
     });
+
+    if (!parameter)
+      throw new InternalServerErrorException(`Parameter ${key} not found`);
+
+    return parameter.value;
   }
 
   public async createAll(parameters: Parameter[]) {

@@ -5,9 +5,15 @@ import { RidesService } from './rides.service';
 import { RidesController } from './rides.controller';
 import { UsersModule } from 'src/users/users.module';
 import { DriversModule } from 'src/drivers/drivers.module';
+import { ParametersModule } from 'src/parameters/parameters.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Ride]), UsersModule, DriversModule],
+  imports: [
+    TypeOrmModule.forFeature([Ride]),
+    UsersModule,
+    DriversModule,
+    ParametersModule,
+  ],
   providers: [RidesService],
   controllers: [RidesController],
 })

@@ -30,10 +30,7 @@ export class Ride {
   })
   status: RideStatus;
 
-  @CreateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-  })
+  @Column({ type: 'timestamp' })
   start_date: Date;
 
   @Column({ type: 'timestamp', nullable: true })
