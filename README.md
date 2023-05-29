@@ -12,10 +12,6 @@ This project is a JSON RESTful API, for a small ride-hailing service with Integr
 - **Testing:** [Jest](https://jestjs.io/)
 - **Deployment:** [Docker](https://www.docker.com/)
 
-## Documentation
-
-This API integrates the Open-API - Swagger standard, you can see this documentation by accessing by `/api/v1`.
-
 ## Setup
 
 Installations required for this project:
@@ -100,31 +96,60 @@ The access token must be sent in the `Authorization` header with the prefix `Bea
 
 ## API Reference
 
-This API integrates the Open-API - Swagger standard, you can see this documentation by accessing by `/api/v1`.
+This API integrates the Open-API - Swagger standard, you can view the complete documentation by accessing `/api/v1`.
 
-#### Login
+### Login
 
-```http
-  GET /api/v1/auth/login
-```
-
-| Parameter  | Type     | Description                |
-| :--------- | :------- | :------------------------- |
-| `username` | `string` | **Required**. Your API key |
-
-#### Get item
+Endpoint of authentication.
 
 ```http
-  GET /api/items/${id}
+  POST  /api/v1/auth/login
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to fetch |
+| Parameter  | Type     | Description   |
+| :--------- | :------- | :------------ |
+| `username` | `string` | **Required**. |
+| `password` | `string` | **Required**. |
 
-#### add(num1, num2)
+### Get rides
 
-Takes two numbers and returns the sum.
+Return all rides in started state
+
+```http
+  GET /api/rides
+```
+
+> Require authorization token
+
+### Start ride
+
+Initiate a ride, assigning an available driver. Return the driver data and ride id.
+
+```http
+  POST /api/rides/start
+```
+
+> Require authorization token from a `user`
+
+| Parameter   | Type     | Description   |
+| :---------- | :------- | :------------ |
+| `latitude`  | `number` | **Required**. |
+| `longitude` | `number` | **Required**. |
+
+### Complete ride
+
+Complete a ride, can only be completed by the same driver. Receive in the url the ride ID as a parameter. Calculates the distance and price, initiates a transaction and returns the reference, distance and price of the ride.
+
+```http
+  POST /api/rides/:id/complete
+```
+
+> Require authorization token from a `driver`
+
+| Parameter   | Type     | Description   |
+| :---------- | :------- | :------------ |
+| `latitude`  | `number` | **Required**. |
+| `longitude` | `number` | **Required**. |
 
 ## Authors
 
