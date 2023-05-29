@@ -33,7 +33,7 @@ export class PaymentsService {
     this.repositoryPayments.save(event.data.transaction);
   }
 
-  async validateSignature(event: EventPaymentDto) {
+  private validateSignature(event: EventPaymentDto) {
     try {
       const { id, amount_in_cents, status } = event.data.transaction;
 
@@ -48,7 +48,7 @@ export class PaymentsService {
 
       if (!result) throw new BadRequestException('Signature not valid');
     } catch (error) {
-      throw new BadRequestException('Error validating signature');
+      throw new BadRequestException('Signature not valid');
     }
   }
 
