@@ -153,4 +153,4 @@ Complete a ride, can only be completed by the same driver. Receive in the url th
 
 ## Authors
 
-- [@esteguri](https://www.github.com/esteguri)
+- [@esteguri](https://www.github.com/esteguri) Esteban Gutierrez
