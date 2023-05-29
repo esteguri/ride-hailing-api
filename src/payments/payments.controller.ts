@@ -1,6 +1,5 @@
 import { Controller, Post, Body, HttpCode } from '@nestjs/common';
 import { Public } from 'src/auth/guards/auth.guard';
-import { TransactionPaymentDto } from './dto/transaction-payment.dto';
 import { PaymentsService } from './payments.service';
 import { EventPaymentDto } from './dto/event-payment.dto';
 
