@@ -102,7 +102,7 @@ This API integrates the Open-API - Swagger standard, you can view the complete d
 
 Endpoint of authentication.
 
-```http
+```bash
   POST  /api/v1/auth/login
 ```
 
@@ -115,7 +115,7 @@ Endpoint of authentication.
 
 Return all rides in started state
 
-```http
+```bash
   GET /api/rides
 ```
 
@@ -125,7 +125,7 @@ Return all rides in started state
 
 Initiate a ride, assigning an available driver. Return the driver data and ride id.
 
-```http
+```bash
   POST /api/rides/start
 ```
 
@@ -140,7 +140,7 @@ Initiate a ride, assigning an available driver. Return the driver data and ride 
 
 Complete a ride, can only be completed by the same driver. Receive in the url the ride ID as a parameter. Calculates the distance and price, initiates a transaction and returns the reference, distance and price of the ride.
 
-```http
+```bash
   POST /api/rides/:id/complete
 ```
 
